@@ -88,11 +88,22 @@ The portal automates trainee onboarding, email verification, batch & project all
 ---
 
 ## 📸 Screenshots 
-- Login Page  
-- Dashboard View  
-- Batch & Project Allocation  
-- Payment Verification  
+- Login Page
+  <img width="1781" height="850" alt="Screenshot 2025-08-13 233328" src="https://github.com/user-attachments/assets/90e49b7d-89e1-4a21-81e9-f7d5ba4fdbf3" />
+  
+- Dashboard View
+  <img width="899" height="529" alt="Screenshot 2025-08-13 235342" src="https://github.com/user-attachments/assets/653ab06a-9d5d-40b8-a437-b61e86d40f90" />
+
+- Batch & Project Allocation
+  <img width="1508" height="337" alt="Screenshot 2025-08-13 234143" src="https://github.com/user-attachments/assets/9a12014d-6b4e-4883-a1b6-d865a890a9c3" />
+
+- Payment Verification
+  <img width="1364" height="756" alt="Screenshot 2025-08-13 235059" src="https://github.com/user-attachments/assets/050ac53e-da87-44a6-a4a4-70622fe9c686" />
+
 - Admin Reports
+  <img width="1049" height="591" alt="Screenshot 2025-08-13 235852" src="https://github.com/user-attachments/assets/c75a25ed-0dc9-4e00-aa97-ddf50c81adf2" />
+
+  <img width="1836" height="886" alt="Screenshot 2025-08-14 000259" src="https://github.com/user-attachments/assets/bfaa0a6a-a599-4c37-ba2c-6878c6a0e640" />
 
 ---
 
