@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Northern Railways Training Portal - Payment </title>
+    <style>
+      body {
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+        min-height: 100vh;
+        margin: 0;
+        padding: 40px 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .main-container {
+        max-width: 1000px;
+        width: 100%;
+        margin: 0 auto;
+      }
+
+      .card {
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        border: none;
+        overflow: hidden;
+        background-color: white;
+      }
+
+      .card-header {
+        background-color: #0056b3;
+        color: white;
+        text-align: center;
+        padding: 25px;
+        border-bottom: none;
+      }
+
+      .logo {
+        max-width: 80px;
+        margin-bottom: 15px;
+      }
+
+      h1 {
+        font-weight: 600;
+        font-size: 28px;
+        margin-bottom: 0;
+      }
+
+      .card-body {
+        padding: 30px;
+      }
+
+      .form-label {
+        font-weight: 500;
+        color: #495057;
+        margin-bottom: 8px;
+      }
+
+      .form-control {
+        border-radius: 8px;
+        padding: 12px 15px;
+        border: 1px solid #ced4da;
+        margin-bottom: 5px;
+      }
+
+      .form-control:focus {
+        box-shadow: 0 0 0 0.25rem rgba(0, 86, 179, 0.25);
+        border-color: #0056b3;
+      }
+
+      .input-group {
+        position: relative;
+        margin-bottom: 15px;
+      }
+
+      .input-icon {
+        position: absolute;
+        left: 15px;
+        top: 14px;
+        color: #6c757d;
+      }
+
+      .icon-input {
+        padding-left: 40px;
+      }
+
+      .btn-primary {
+        background-color: #0056b3;
+        border-color: #0056b3;
+        padding: 12px 30px;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+
+      .btn-primary:hover {
+        background-color: #003d82;
+        border-color: #003d82;
+        transform: translateY(-2px);
+      }
+
+      .btn-outline-danger {
+        border-radius: 8px;
+        padding: 10px 25px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+
+      .btn-outline-danger:hover {
+        transform: translateY(-2px);
+      }
+
+      .alert {
+        border-radius: 8px;
+        padding: 15px;
+      }
+
+      .footer {
+        text-align: center;
+        color: #6c757d;
+        font-size: 14px;
+        margin-top: 20px;
+      }
+
+      .form-section {
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        padding: 25px;
+        margin-bottom: 20px;
+      }
+
+      .form-text {
+        color: #6c757d;
+        font-size: 0.85rem;
+        margin-top: 5px;
+      }
+
+      .progress-indicator {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 30px;
+      }
+
+      .progress-step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 120px;
+      }
+
+      .step-circle {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        background-color: #e9ecef;
+        color: #6c757d;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+
+      .step-circle.active {
+        background-color: #0056b3;
+        color: white;
+      }
+
+      .step-line {
+        height: 3px;
+        width: 100px;
+        background-color: #e9ecef;
+        margin: 0 -10px;
+        margin-top: 17px;
+      }
+
+      .step-line.active {
+        background-color: #0056b3;
+      }
+
+            .step-text {
+        font-size: 0.85rem;
+        color: #6c757d;
+        text-align: center;
+      }
+
+      .step-text.active {
+        color: #0056b3;
+        font-weight: 600;
+      }
+
+      .payment-info {
+        background-color: #e8f4ff;
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-left: 4px solid #0056b3;
+      }
+
+      .course-card {
+        border: 1px solid #e9ecef;
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 15px;
+        transition: all 0.3s ease;
+      }
+
+      .course-card:hover {
+        border-color: #0056b3;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+      }
+
+      .course-card.selected {
+        background-color: #e8f4ff;
+        border-color: #0056b3;
+      }
+
+      .course-title {
+        font-weight: 600;
+        color: #0056b3;
+        margin-bottom: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="main-container">
+      <div class="card">
+        <div class="card-header">
+          <img src="https://upload.wikimedia.org/wikipedia/en/thumb/8/83/Indian_Railways.svg/1200px-Indian_Railways.svg.png" alt="Northern Railways Logo" class="logo">
+          <h1>Northern Railways Training Portal</h1>
+          <p class="text-light mb-0">Complete your registration by verifying payment </p>
+        </div>
+
+        <div class="card-body">
+          <!-- Progress Indicator -->
+          <div class="progress-indicator">
+            <div class="progress-step">
+              <div class="step-circle active">1</div>
+              <div class="step-text active">Registration</div>
+            </div>
+            <div class="step-line active"></div>
+            <div class="progress-step">
+              <div class="step-circle active">2</div>
+              <div class="step-text active">User Information</div>
+            </div>
+            <div class="step-line active"></div>
+            <div class="progress-step">
+              <div class="step-circle active">3</div>
+              <div class="step-text active">Payment</div>
+            </div>
+            <div class="step-line"></div>
+            <div class="progress-step">
+              <div class="step-circle">4</div>
+              <div class="step-text">Confirmation</div>
+            </div>
+          </div>
+
+          <div class="payment-info">
+            <h5><i class="fas fa-info-circle me-2"></i>Payment Process </h5>
+            <p class="mb-0">Please go to <strong>Charbagh Railway Station</strong> General Ticket Counter</p>
+            <ul class="mb-0 mt-2">
+              <li><strong>Get a Print out of Payment Request PDF</strong> </li>
+              <li><strong>Pay Rs.250 and collect a ticket of your name</strong> </li>
+              <li><strong>Then find the Transaction Id</strong> </li>
+              
+            </ul>
+          </div>
+
+          <div class="form-section">
+            <h3 class="text-center mb-4"><i class="fas fa-credit-card me-2"></i>Payment Verification </h3>
+
+            <div id="statusMessage" class="alert mt-3" style="display: none;"></div>
+
+            <form id="paymentForm" onsubmit="handleFormSubmit(event)">
+              <div class="mb-3">
+                <label for="uniqueId" class="form-label">Your Unique ID</label>
+                <div class="input-group">
+                  <i class="fas fa-fingerprint input-icon"></i>
+                  <input type="text" class="form-control icon-input" id="uniqueId" name="uniqueId" placeholder="Enter the ID received after registration" required>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="transactionId" class="form-label">Payment Transaction ID</label>
+                <div class="input-group">
+                  <i class="fas fa-receipt input-icon"></i>
+                  <input type="text" class="form-control icon-input" id="transactionId" name="transactionId" placeholder="Enter your payment transaction ID" required>
+                </div>
+                <div class="form-text">
+                  <i class="fas fa-info-circle me-1"></i>Enter the transaction ID after making payment of ₹250
+                </div>
+              </div>
+
+
+              <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary">
+                  <i class="fas fa-check-circle me-2"></i>Verify Payment 
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Logout Button -->
+          <div class="text-center mt-4">
+            <button onclick="logoutUser()" class="btn btn-outline-danger">
+              <i class="fas fa-sign-out-alt me-2"></i>Logout
+            </button>
+          </div>
+
+          <div class="footer">
+            <p>© 2023 Northern Railways. All rights reserved.</p>
+            <p>For technical support, please contact <a href="mailto:support@northernrailways.in">support@northernrailways.in</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function handleFormSubmit(event) {
+        event.preventDefault();
+
+        const formData = {
+          uniqueId: document.getElementById('uniqueId').value,
+          transactionId: document.getElementById('transactionId').value,
+        };
+
+        showMessage('Verifying payment, please wait...', 'info');
+
+        google.script.run
+          .withSuccessHandler(function(response) {
+           if (response.success) {
+             // Update progress indicator
+              document.querySelectorAll('.step-circle')[3].classList.add('active');
+              document.querySelectorAll('.step-text')[3].classList.add('active');
+              document.querySelectorAll('.step-line')[2].classList.add('active');
+
+             // Display the message returned by the server
+              showMessage(response.message, 'success');
+             document.getElementById('paymentForm').reset();
+
+             // Check if redirect is provided
+             if (response.redirect) {
+                setTimeout(function() {
+                  window.location.href = response.redirect;
+                }, 3000);
+              }
+            } else {
+              // Display the error message returned by the server
+             showMessage(response.message, 'danger');
+            }
+          })
+          .withFailureHandler(function(error) {
+            showMessage('Failed to process payment: ' + error.message, 'danger');
+          })
+          .verifyPaymentAndCourse(formData);
+      }
+
+      function showMessage(text, type) {
+        const statusMessage = document.getElementById('statusMessage');
+
+        // Add icon based on message type
+        let icon = '';
+        if (type === 'success') icon = '<i class="fas fa-check-circle me-2"></i>';
+        else if (type === 'danger') icon = '<i class="fas fa-exclamation-circle me-2"></i>';
+        else if (type === 'info') icon = '<i class="fas fa-info-circle me-2"></i>';
+
+        statusMessage.innerHTML = icon + text;
+        statusMessage.className = `alert alert-${type} mt-3`;
+        statusMessage.style.display = 'block';
+
+        // Scroll to message
+        statusMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+
+      function logoutUser() {
+        if (confirm('Are you sure you want to logout? Any unsaved information will be lost.')) {
+          showMessage('Logging out...', 'info');
+
+          google.script.run
+            .withSuccessHandler(function(result) {
+              if (result.success) {
+                console.log('Logout successful');
+                window.location.href = '?';  // Redirect to main page
+              } else {
+                showMessage('Logout failed: ' + (result.message || 'Unknown error'), 'danger');
+                console.error('Logout failed:', result.message || 'Unknown error');
+              }
+            })
+            .withFailureHandler(function(error) {
+              showMessage('Logout error: ' + (error.message || 'Unknown error occurred'), 'danger');
+              console.error('Logout error:', error.message || 'Unknown error occurred');
+            })
+            .logout();
+        }
+      }
+
+    </script>
+  </body>
+</html>

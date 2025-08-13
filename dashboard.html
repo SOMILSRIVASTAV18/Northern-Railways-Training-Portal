@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Northern Railways Training Portal - Dashboard</title>
+    <style>
+      /* Using Google Fonts for a modern look */
+      @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+      body {
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+        min-height: 100vh;
+        margin: 0;
+        padding: 40px 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      .main-container { max-width: 600px; width: 100%; margin: 0 auto; }
+      .card {
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        border: none;
+        overflow: hidden;
+        background-color: white;
+        text-align: center;
+      }
+      .card-header {
+        background-color: #0056b3;
+        color: white;
+        text-align: center;
+        padding: 25px;
+        border-bottom: none;
+      }
+      .logo { max-width: 80px; margin-bottom: 15px; }
+      h1 { font-weight: 600; font-size: 28px; margin-bottom: 0; }
+      .card-body { padding: 30px; }
+      .btn {
+        padding: 12px 30px;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        color: #fff;
+        cursor: pointer;
+        border: none;
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      .btn:hover { transform: translateY(-2px); }
+      .btn-primary { background-color: #0056b3; border-color: #0056b3; }
+      .btn-primary:hover { background-color: #003d82; }
+      .btn-success { background-color: #28a745; border-color: #28a745; }
+      .btn-success:hover { background-color: #218838; }
+      .btn-outline-primary { background: #fff; color: #0056b3; border: 2px solid #0056b3; }
+      .btn-outline-primary:hover { background-color: #0056b3; color: #fff; }
+      .btn-outline-danger { background: #fff; color: #dc3545; border: 2px solid #dc3545; margin-top: 20px; }
+      .btn-outline-danger:hover { background-color: #dc3545; color: #fff; }
+      .footer { text-align: center; color: #6c757d; font-size: 14px; padding: 20px; }
+      .user-info { margin-bottom: 20px; font-size: 1.1rem; text-align: left; }
+      .user-info strong { color: #0056b3; }
+      .alert {
+        border-radius: 10px;
+        padding: 15px;
+        margin: 20px 0 10px 0;
+        font-size: 1rem;
+        display: none; /* Hidden by default */
+        text-align: left;
+      }
+      .alert-info { background-color: #e8f4ff; border-left: 5px solid #0056b3; color: #004085; }
+      .alert-success { background-color: #d4edda; border-left: 5px solid #28a745; color: #155724; }
+      .alert-danger { background-color: #f8d7da; border-left: 5px solid #dc3545; color: #721c24; }
+      .mb-2 { margin-bottom: 12px !important; }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="card">
+            <div class="card-header">
+                <img src="https://upload.wikimedia.org/wikipedia/en/thumb/8/83/Indian_Railways.svg/1200px-Indian_Railways.svg.png" class="logo" alt="Logo">
+                <h1>Northern Railways Training Portal</h1>
+                <div style="font-size:16px; margin-top:8px;">Student Dashboard</div>
+            </div>
+            <div class="card-body">
+                <div class="user-info mb-2">
+                    <div><strong>Name:</strong> <span id="userName">Loading...</span></div>
+                    <div><strong>Email:</strong> <span id="userEmail">Loading...</span></div>
+                    <div><strong>Unique ID:</strong> <span id="userUniqueId">Loading...</span></div>
+                </div>
+                <div id="dashboardMessage" class="alert"></div>
+                <div id="dashboardActions">
+                    </div>
+                <button class="btn btn-outline-danger" onclick="logoutUser()">Logout</button>
+            </div>
+            <div class="footer">
+                &copy; 2023 Northern Railways. All rights reserved.<br>
+                For technical support, please contact support@northernrailways.in
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            google.script.run
+                .withSuccessHandler(updateDashboardUI)
+                .withFailureHandler(showError)
+                .getCurrentUserDashboardInfo();
+        });
+
+        function updateDashboardUI(info) {
+            if (!info || !info.email) {
+                showError({ message: "Could not retrieve user information. Please try logging in again." });
+                return;
+            }
+            
+            document.getElementById('userName').textContent = info.fullName || 'N/A';
+            document.getElementById('userEmail').textContent = info.email;
+            document.getElementById('userUniqueId').textContent = info.uniqueId || 'Not Generated Yet';
+
+            let html = '';
+            let message = '';
+            let messageType = 'info';
+
+            if (!info.userInfoSubmitted) {
+                message = "Please complete your registration by filling out your information.";
+                html = `<button class="btn btn-primary" onclick="redirectToPage('userForm')">Continue Registration</button>`;
+            } else if (!info.paymentVerified) {
+                message = "Your information is submitted. Please download your payment request and then verify your payment details.";
+                html = `
+                    <button class="btn btn-outline-primary mb-2" onclick="downloadPaymentPDF()">Download Payment Request PDF</button>
+                    <button class="btn btn-primary" onclick="redirectToPage('paymentVerification')">Verify Payment Details</button>
+                `;
+            } else {
+                message = "Your registration is complete! You can now download your confirmation certificate.";
+                messageType = 'success';
+                html = `<button class="btn btn-success" onclick="downloadConfirmationPDF()">Download Confirmation Certificate</button>`;
+            }
+
+            setDashboardMessage(message, messageType);
+            document.getElementById('dashboardActions').innerHTML = html;
+        }
+
+        function redirectToPage(pageName) {
+            // Simple client-side redirect. No server call needed.
+            setDashboardMessage("Redirecting...", "info");
+            window.location.href = "<?= ScriptApp.getService().getUrl() ?>?page=" + pageName;
+        }
+
+        function downloadPaymentPDF() {
+            setDashboardMessage("Preparing payment request PDF, please wait...", "info");
+            google.script.run
+                .withSuccessHandler(openPdfUrl)
+                .withFailureHandler(showError)
+                .getPaymentRequestPdfUrl();
+        }
+
+        function downloadConfirmationPDF() {
+            setDashboardMessage("Preparing confirmation PDF, please wait...", "info");
+            google.script.run
+                .withSuccessHandler(openPdfUrl)
+                .withFailureHandler(showError)
+                .getConfirmationPdfUrl();
+        }
+        
+        function openPdfUrl(response) {
+            if (response && response.url) {
+                window.open(response.url, '_blank');
+                setDashboardMessage("Your PDF has been opened in a new tab.", "success");
+            } else {
+                showError({ message: "Could not generate the requested PDF." });
+            }
+        }
+
+        function logoutUser() {
+            setDashboardMessage("Logging out...", "info");
+            google.script.run.withSuccessHandler(function() {
+                window.location.href = "<?= ScriptApp.getService().getUrl() ?>";
+            }).logout();
+        }
+
+        function showError(error) {
+            setDashboardMessage("Error: " + (error.message || "An unknown error occurred."), "danger");
+        }
+
+        function setDashboardMessage(msg, type) {
+            const el = document.getElementById('dashboardMessage');
+            el.textContent = msg;
+            el.className = "alert alert-" + type;
+            el.style.display = "block";
+        }
+    </script>
+</body>
+</html>
