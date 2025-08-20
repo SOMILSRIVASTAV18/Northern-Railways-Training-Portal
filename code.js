@@ -1,5 +1,5 @@
 // Global variables
-const SPREADSHEET_ID = '1J5cZcCjtX1DAp8nxiUcUtahK8XMtl5gOdFnZQSqMr0Q'; // Add your Google Sheet ID here
+const SPREADSHEET_ID = ' '; // Add your Google Sheet ID here
 const VERIFICATION_SHEET = 'Verifications';
 const USERS_SHEET = 'Users';
 const USER_INFO_SHEET = 'UserInfo';
@@ -1588,4 +1588,5 @@ function getProjectShortName(projectName) {
   shortName = shortName.split(' ').slice(0, 3).join(' ');
   shortName = shortName.replace(/[^a-zA-Z0-9]/g, '').substring(0, 20).toUpperCase();
   return shortName;
+
 }
